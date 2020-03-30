@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "codimd.fullname" . }}
+  labels:
+    app.kubernetes.io/component: server
+  {{- include "codimd.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: server
+  {{- include "codimd.labels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ template "codimd.fullname" . }}
+      labels:
+        app.kubernetes.io/component: server
+    {{- include "codimd.labels" . | nindent 8 }}
+    spec:
+      {{ if .Values.image.pullSecrets }}
+      imagePullSecrets:
+      {{ .Values.image.pullSecrets | nindent 8 }}
+      {{end }}
+      containers:
+        - name: codimd
+          image: {{ template "codimd.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CMD_USE_CDN
+              value: {{ .Values.codimd.security.useCDN | quote }}
+            - name: CMD_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "codimd.fullname" . }}-database-secret
+                  key: connection
+          envFrom:
+            - secretRef:
+                name: {{ template "codimd.fullname" . }}-auth-env
+          ports:
+            - name: http
+              containerPort: 3000
+      restartPolicy: Always

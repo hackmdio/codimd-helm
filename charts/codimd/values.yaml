@@ -1,0 +1,229 @@
+# Default values for codimd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# nameOverride:
+# fullnameOverride:
+
+image:
+  registry: nabo.codimd.dev
+  repository: hackmdio/hackmd
+  tag: 2.0.0
+  pullPolicy: IfNotPresent
+#  pullSecrets:
+#    - myRegistryKeySecretName
+
+##
+## PostgreSQL chart configuration
+##
+## Reference: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
+##
+## If you want to use external database, just set postgresql.enabled to false
+##
+postgresql:
+  enabled: true
+  volumePermissions:
+    enabled: true
+  postgresqlUsername: codimd
+  postgresqlPassword: changeme
+  postgresqlDatabase: codimd
+
+
+##
+## Kubernetes service
+## use NodePort for minikube
+## other environment use LoadBalancer or ClusterIP
+##
+service:
+  type: LoadBalancer
+  port: 80
+
+##
+## Ingress configuration
+##
+ingress:
+  enabled: false
+  annotation: {}
+  hostname:
+  tlsSecret:
+
+
+##
+## CodiMD application configuration
+##
+codimd:
+  ##
+  ## connection setting
+  ##
+  connection: {}
+  ## if you doesn't using ingress, you can setup domain for your CodiMD instances
+  #  domain:
+  ## if you want to add port number on your url
+  #  urlAddPort:
+  ## if you use load balancer or setup TLS on ingress
+  #  protocolUseSSL:
+
+  ##
+  ## External database configuration
+  ##   if you want to use external database
+  ##   database type only support mysql and postgres
+  ##
+  #  database:
+  #    type: postgres
+  #    host:
+  #    port:
+  #    username:
+  #    password:
+  #    databaseName:
+
+  ##
+  ## Image upload store
+  ##
+  imageUpload:
+    storeType: filesystem
+  #    imgur:
+  #      clientId:
+  #    azure:
+  #      connectionString:
+  #      container:
+  #    lutim:
+  #      url:
+  #    minio:
+  #      endpoint:
+  #      secure:
+  #      port:
+  #      accessKey:
+  #      secretKey:
+  #    s3:
+  #      endpoint:
+  #      region:
+  #      accessKeyId:
+  #      secretKey:
+  #      bucket:
+  imageStorePersistentVolume:
+    enabled: 'true'
+
+  extraEnvironmentVariables: {}
+  versionCheck: true
+  security:
+    useCDN: false
+    #    session:
+    #      secret:
+    #      life:
+    htst:
+      enabled: true
+    #      maxAge:
+    #      includeSubdomain: false
+    #      preload:
+    csp:
+      enabled: true
+  #      reportUri:
+  #    allowOrigin:
+  #    allowGravatar: true
+  #    allowPDFExport: true
+  #    responseMaxLag:
+  noteCreation:
+    freeUrl:
+      enabled: false
+      forbiddenNoteIds:
+    defaultPermission:
+  notePermission:
+    anonymous:
+      enable:
+      allowEdit:
+      allowView:
+  markdown:
+    plantUML:
+      server:
+    useHardBreak:
+    linkifyHeaderStyle:
+
+
+  ##
+  ## User Authentication Methods
+  ##
+  authentication:
+    ##
+    ## authentication by Email and Password
+    local:
+      enabled: true
+      allowRegister: true
+    bitbucket:
+      enabled: false
+      key:
+      secret:
+    dropbox:
+      enabled: false
+      appKey:
+      appSecret:
+    facebook:
+      enabled: false
+      clientId:
+      secret:
+    github:
+      enabled: false
+      clientId:
+      secret:
+      ## provide enterprise url if you use GitHub Enterprise Version
+      enterpriseUrl:
+    gitlab:
+      enabled: false
+      domain:
+      scope:
+      applicationId:
+      secret:
+    google:
+      enabled: false
+      clientId:
+      secret:
+      hostedDomain:
+    ldap:
+      enabled: false
+      providerName:
+      url:
+      tlsCA:
+      bindDN:
+      bindCredentials:
+      searchBase:
+      searchFilter:
+      searchAttributes:
+      attributes:
+        id:
+        username:
+    mattermost:
+      enabled: false
+      domain:
+      clientId:
+      secret:
+    oauth2:
+      enabled: false
+      providerName:
+      domain:
+      clientId:
+      secret:
+      authorizationUrl:
+      tokenUrl:
+      userProfileUrl:
+      scope:
+      attributes:
+        username:
+        displayName:
+        email:
+    saml:
+      enabled: false
+      idpSSOUrl:
+      idpCert:
+      issuer:
+      identifierFormat:
+      disableRequestedAuthnContext:
+      groupAttribute:
+      externalGroups:
+      requiredGroups:
+      attributes:
+        id:
+        username:
+        email:
+    twitter:
+      enabled:
+      consumerKey:
+      comsumerSecret:
