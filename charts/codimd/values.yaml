@@ -229,6 +229,8 @@ codimd:
         username:
         displayName:
         email:
+    openID:
+      enabled: false
     saml:
       enabled: false
       idpSSOUrl:
