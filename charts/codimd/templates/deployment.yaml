@@ -4,20 +4,29 @@ metadata:
   name: {{ template "codimd.fullname" . }}
   labels:
     app.kubernetes.io/component: server
-  {{- include "codimd.labels" . | nindent 4 }}
+    {{- include "codimd.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: server
-  {{- include "codimd.labels" . | nindent 6 }}
+      {{- include "codimd.labels" . | nindent 6 }}
   template:
     metadata:
       name: {{ template "codimd.fullname" . }}
       labels:
         app.kubernetes.io/component: server
-    {{- include "codimd.labels" . | nindent 8 }}
+        {{- include "codimd.labels" . | nindent 8 }}
+      annotations:
+        {{ toYaml .Values.codimd.podAnnotations | nindent 8 }}
     spec:
+      affinity:
+      {{ toYaml .Values.codimd.affinity | nindent 8 }}
+      tolerations:
+      {{ toYaml .Values.codimd.tolerations | nindent 8 }}
+      nodeSelector:
+      {{ toYaml .Values.codimd.nodeSelector | nindent 8 }}
+
       {{ if .Values.image.pullSecrets }}
       imagePullSecrets:
       {{ .Values.image.pullSecrets | nindent 8 }}
