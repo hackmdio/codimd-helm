@@ -22,7 +22,7 @@ image:
 ## If you want to use external database, just set postgresql.enabled to false
 ##
 postgresql:
-  install: true
+  enabled: true
   volumePermissions:
     enabled: true
   postgresqlUsername: codimd
@@ -36,7 +36,7 @@ postgresql:
 ## If you prefer MariaDB, we also supported.
 ##
 mariadb:
-  install: false
+  enabled: false
   volumePermissions:
     enabled: true
   db:
