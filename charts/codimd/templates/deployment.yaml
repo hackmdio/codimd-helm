@@ -7,10 +7,21 @@ metadata:
     {{- include "codimd.labels" . | nindent 4 }}
 spec:
   replicas: 1
+  strategy:
+    {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
+    type: Recreate
+    {{ else }}
+    {{/* Because of CodiMD using socket.io as realtime server, if their has many instances may breaking note contents */}}
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    {{ end }}
   selector:
     matchLabels:
       app.kubernetes.io/component: server
-      {{- include "codimd.labels" . | nindent 6 }}
+      app.kubernetes.io/name: {{ include "codimd.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       name: {{ template "codimd.fullname" . }}
@@ -18,7 +29,17 @@ spec:
         app.kubernetes.io/component: server
         {{- include "codimd.labels" . | nindent 8 }}
       annotations:
+        checksum/db-secret: {{ include (print $.Template.BasePath "/db-secret.yaml") . | sha256sum | quote }}
+        checksum/auth-secret: {{ include (print $.Template.BasePath "/auth-secret.yaml") . | sha256sum | quote }}
+        {{ if .Values.codimd.security.sessionSecret }}
+        checksum/session-secret: {{ include (print $.Template.BasePath "/session-secret.yaml") . | sha256sum | quote }}
+        {{ end }}
+        {{ if contains "true" (include "codimd.needImageSecret" .) }}
+        checksum/session-secret: {{ include (print $.Template.BasePath "/image-upload-secret.yaml") . | sha256sum | quote }}
+        {{ end }}
+        {{ if .Values.codimd.podAnnotations }}
         {{ toYaml .Values.codimd.podAnnotations | nindent 8 }}
+        {{ end }}
     spec:
       {{ if .Values.codimd.securityContext }}
       securityContext:
@@ -45,7 +66,15 @@ spec:
           image: {{ template "codimd.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           env:
-            - name: CMD_USE_CDN
+            {{ if .Values.codimd.connection.domain }}
+            - name: CMD_DOMAIN
+              value: {{ .Values.codimd.connection.domain | quote }}
+            {{ end }}
+            - name: CMD_URL_ADDPORT
+              value: {{ .Values.codimd.connection.urlAddPort | quote }}
+            - name: CMD_PROTOCOL_USESSL
+              value: {{ .Values.codimd.connection.protocolUseSSL | quote }}
+            - name: CMD_USECDN
               value: {{ .Values.codimd.security.useCDN | quote }}
             - name: CMD_DB_URL
               valueFrom:
@@ -76,6 +105,8 @@ spec:
               value: {{ .Values.codimd.security.allowGravatar | quote }}
             - name: CMD_RESPONSE_MAX_LAG
               value: {{ .Values.codimd.responseMaxLag | quote }}
+            - name: CMD_IMAGE_UPLOAD_TYPE
+              value: {{ .Values.codimd.imageUpload.storeType | quote }}
             - name: CMD_ALLOW_FREEURL
               value: {{ .Values.codimd.noteCreation.freeUrlEnabled | quote }}
             - name: CMD_FORBIDDEN_NOTE_IDS
@@ -111,6 +142,10 @@ spec:
             - secretRef:
                 name: {{ template "codimd.shortName" . }}-session
             {{ end }}
+            {{ if contains "true" (include "codimd.needImageSecret" .) }}
+            - secretRef:
+                name: {{ template "codimd.shortName" . }}-image-upload
+            {{ end  }}
           ports:
             - name: http
               containerPort: 3000
@@ -119,6 +154,15 @@ spec:
             - mountPath: /home/hackmd/app/public/uploads
               name: image-store
           {{ end }}
+          readinessProbe:
+            httpGet:
+              port: 3000
+              path: /status
+            initialDelaySeconds: 3
+            failureThreshold: 2
+            successThreshold: 3
+            timeoutSeconds: 2
+            periodSeconds: 5
       restartPolicy: Always
       {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
       volumes:

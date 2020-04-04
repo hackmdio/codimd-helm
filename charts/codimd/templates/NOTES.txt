@@ -5,10 +5,14 @@ Your release is named {{ .Release.Name }}.
 Browse https://hackmd.io/c/codimd-documentation to get more information about CodiMD.
 
 {{ if contains "changeit" .Values.codimd.security.sessionSecret }}
-For the security reason, please consider change codimd.security.sessionSecret to random secret.
-{{ end }}
-===========================
+===============================================================================================
 
+Important:
+
+For the security reason, please consider change codimd.security.sessionSecret to random secret.
+
+===============================================================================================
+{{ end }}
 {{ if contains "LoadBalancer" .Values.service.type }}
 NOTE: It may take a few minutes for the LoadBalancer IP to be available.
       Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ template "codimd.fullname" . }} '

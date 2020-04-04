@@ -7,10 +7,8 @@ keywords:
   - markdown
   - collaboration
 maintainers:
-  - name: HackMD Inc.
+  - name: HackMD Inc. Dev Team
     email: support@hackmd.io
-  - name: Raccoon Li
-    email: raccoon@hackmd.io
 
 sources:
   - https://github.com/hackmdio/codimd
@@ -20,7 +18,7 @@ kubeVersion: ">=1.14.0-0"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.1.4
+version: 0.1.5
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.

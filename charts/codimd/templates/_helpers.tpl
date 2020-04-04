@@ -109,7 +109,7 @@ Return the appropriate apiVersion for deployment.
 {{- end -}}
 
 {{/*
-Return  the proper Storage Class for the master
+Return the proper Storage Class
 */}}
 {{- define "codimd.storageClass" -}}
 {{/*
@@ -137,4 +137,36 @@ but Helm 2.9 and 2.10 does not support it, so we need to implement this if-else 
     {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
   {{- end -}}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Return need create image secret
+*/}}
+{{- define "codimd.needImageSecret" -}}
+{{- $imgur := false -}}
+{{- $s3 := false -}}
+{{- $minio := false -}}
+{{- $azure := false -}}
+{{- if .Values.codimd.imageUpload.imgur -}}
+  {{- if .Values.codimd.imageUpload.imgur.clientId -}}
+    {{- $imgur = true -}}
+  {{- end -}}
+{{- end -}}
+{{- if .Values.codimd.imageUpload.s3 -}}
+  {{- if .Values.codimd.imageUpload.s3.accessKeyId -}}
+    {{- $s3 = true -}}
+  {{- end -}}
+{{- end -}}
+{{- if .Values.codimd.imageUpload.minio -}}
+  {{- if .Values.codimd.imageUpload.minio.accessKey -}}
+    {{- $minio = true -}}
+  {{- end -}}
+{{- end -}}
+{{- if .Values.codimd.imageUpload.azure -}}
+  {{- if .Values.codimd.imageUpload.azure.connectionString -}}
+    {{- $azure = true -}}
+  {{- end -}}
+{{- end -}}
+{{- $needImage := (or $imgur (or $s3 (or $minio $azure))) -}}
+{{- print $needImage -}}
 {{- end -}}
