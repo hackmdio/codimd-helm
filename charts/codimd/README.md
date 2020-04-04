@@ -19,18 +19,13 @@ $ helm install my-release codimd/codimd
 
 ## Parameters
 
-### Global parameters
+### Common Helm parameters
 
 If you use AWS EKS, please setup global.storageClass as `gp2`
 
-| Parameter           | Description                              | Default |
-| ------------------- |:---------------------------------------- | ------- |
-| global.storageClass | default storageClass for PersistenVolume | `nil`   |
-
-### Common Helm parameters
-
 | Parameter        | Description                                                                                         | Default |
 | ---------------- |:--------------------------------------------------------------------------------------------------- | ------- |
+| storageClass     | default storageClass for PersistenVolume                                                            | `nil`   |
 | nameOverride     | String to partially override codimd.fullname template with a string (will prepend the release name) | `nil`   |
 | fullnameOverride | String to fully override codimd.fullname template with a string                                     | `nil`   |
 

@@ -2,9 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-global:
-  # storageClass:
-
+# storageClass:
 # nameOverride:
 # fullnameOverride:
 
@@ -24,7 +22,7 @@ image:
 ## If you want to use external database, just set postgresql.enabled to false
 ##
 postgresql:
-  enabled: true
+  install: true
   volumePermissions:
     enabled: true
   postgresqlUsername: codimd
@@ -38,7 +36,7 @@ postgresql:
 ## If you prefer MariaDB, we also supported.
 ##
 mariadb:
-  enabled: false
+  install: false
   volumePermissions:
     enabled: true
   db:
