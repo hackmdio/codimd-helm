@@ -3,16 +3,30 @@ entries:
   codimd:
   - apiVersion: v1
     appVersion: 2.0.0
-    created: "2020-04-05T02:07:54.764118+08:00"
-    dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: ~8.6.10
-    - condition: mariadb.enabled
-      name: mariadb
-      repository: https://charts.bitnami.com/bitnami
-      version: ~7.3.16
+    created: "2020-04-05T02:48:18.115961+08:00"
+    description: A CodiMD Helm chart for Kubernetes
+    digest: 1820143c8b9d1950094009c4929b7b73bff3b867ae1c403961c832634b1557b5
+    icon: https://hackmd.io/favicon.png
+    keywords:
+    - codimd
+    - markdown
+    - collaboration
+    kubeVersion: '>=1.14.0-0'
+    maintainers:
+    - email: support@hackmd.io
+      name: HackMD Inc.
+    - email: raccoon@hackmd.io
+      name: Raccoon Li
+    name: codimd
+    sources:
+    - https://github.com/hackmdio/codimd
+    - https://github.com/hackmdio/codimd-helm
+    urls:
+    - codimd-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    appVersion: 2.0.0
+    created: "2020-04-05T02:48:18.111136+08:00"
     description: A CodiMD Helm chart for Kubernetes
     digest: 026aa759511aa141628f83a94c5140d51ad5ad9bd2343a794f070595365ba5f9
     icon: https://hackmd.io/favicon.png
@@ -33,4 +47,4 @@ entries:
     urls:
     - codimd-0.1.0.tgz
     version: 0.1.0
-generated: "2020-04-05T02:07:54.756888+08:00"
+generated: "2020-04-05T02:48:18.107047+08:00"
