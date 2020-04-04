@@ -14,8 +14,8 @@ NOTE: It may take a few minutes for the LoadBalancer IP to be available.
       Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ template "codimd.fullname" . }} '
 {{ else if .Values.ingress.enabled }}
   {{ if .Values.ingress.tlsSecret }}
-  Your CodiMD is located in: http://{{ .Values.ingress.hostname }}/
-  {{ else }}
   Your CodiMD is located in: https://{{ .Values.ingress.hostname }}/
+  {{ else }}
+  Your CodiMD is located in: http://{{ .Values.ingress.hostname }}/
   {{ end }}
 {{ end }}

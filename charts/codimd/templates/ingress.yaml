@@ -5,7 +5,7 @@ metadata:
   name: {{ template "codimd.fullname" . }}
   {{ if .Values.ingress.annotation}}
   annotations:
-    {{ .Values.ingress.annotation | nindent 4 }}
+    {{ toYaml .Values.ingress.annotation | nindent 4 }}
   {{ end }}
 spec:
   rules:
@@ -17,7 +17,8 @@ spec:
               servicePort: 80
   {{ if .Values.ingress.tlsSecret }}
   tls:
-    - hosts: {{ .Values.ingress.hostname }}
+    - hosts:
+        - {{ .Values.ingress.hostname }}
       secretName: {{ .Values.ingress.tlsSecret }}
   {{ end }}
   {{ end }}

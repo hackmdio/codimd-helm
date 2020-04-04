@@ -117,28 +117,24 @@ Helm 2.11 supports the assignment of a value to a variable defined in a differen
 but Helm 2.9 and 2.10 does not support it, so we need to implement this if-else logic.
 */}}
 {{- if .Values.global -}}
-    {{- if .Values.global.storageClass -}}
-        {{- if (eq "-" .Values.global.storageClass) -}}
-            {{- printf "storageClassName: \"\"" -}}
-        {{- else }}
-            {{- printf "storageClassName: %s" .Values.global.storageClass -}}
-        {{- end -}}
-    {{- else -}}
-        {{- if .Values.codimd.imageStorePersistentVolume.storageClass -}}
-              {{- if (eq "-" .Values.codimd.imageStorePersistentVolume.storageClass) -}}
-                  {{- printf "storageClassName: \"\"" -}}
-              {{- else }}
-                  {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
-              {{- end -}}
-        {{- end -}}
+  {{- if .Values.global.storageClass -}}
+    {{- if (eq "-" .Values.global.storageClass) -}}
+      {{- printf "storageClassName: \"\"" -}}
+    {{- else }}
+      {{- printf "storageClassName: %s" .Values.global.storageClass -}}
     {{- end -}}
-{{- else -}}
-    {{- if .Values.codimd.imageStorePersistentVolume.storageClass -}}
-        {{- if (eq "-" .Values.codimd.imageStorePersistentVolume.storageClass) -}}
-            {{- printf "storageClassName: \"\"" -}}
-        {{- else }}
-            {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
-        {{- end -}}
-    {{- end -}}
+  {{- end -}}
+{{- else if .Values.storageClass -}}
+  {{- if (eq "-" .Values.storageClass) -}}
+    {{- printf "storageClassName: \"\"" -}}
+  {{- else }}
+    {{- printf "storageClassName: %s" .Values.storageClass -}}
+  {{- end -}}
+{{- else if .Values.codimd.imageStorePersistentVolume.storageClass -}}
+  {{- if (eq "-" .Values.codimd.imageStorePersistentVolume.storageClass) -}}
+    {{- printf "storageClassName: \"\"" -}}
+  {{- else }}
+    {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
+  {{- end -}}
 {{- end -}}
 {{- end -}}
