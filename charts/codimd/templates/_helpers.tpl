@@ -22,6 +22,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "codimd.shortName" -}}
+{{- $name := include "codimd.fullname" . }}
+{{- printf "%s" $name | trunc 50 | trimSuffix "-" -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
@@ -89,5 +94,51 @@ Embedded MariaDB service name
   {{- else -}}
     {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
   {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the appropriate apiVersion for deployment.
+*/}}
+{{- define "codimd.deployment.apiVersion" -}}
+{{- if semverCompare "<1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- print "extensions/v1beta1" -}}
+{{- else -}}
+{{- print "apps/v1" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return  the proper Storage Class for the master
+*/}}
+{{- define "codimd.storageClass" -}}
+{{/*
+Helm 2.11 supports the assignment of a value to a variable defined in a different scope,
+but Helm 2.9 and 2.10 does not support it, so we need to implement this if-else logic.
+*/}}
+{{- if .Values.global -}}
+    {{- if .Values.global.storageClass -}}
+        {{- if (eq "-" .Values.global.storageClass) -}}
+            {{- printf "storageClassName: \"\"" -}}
+        {{- else }}
+            {{- printf "storageClassName: %s" .Values.global.storageClass -}}
+        {{- end -}}
+    {{- else -}}
+        {{- if .Values.codimd.imageStorePersistentVolume.storageClass -}}
+              {{- if (eq "-" .Values.codimd.imageStorePersistentVolume.storageClass) -}}
+                  {{- printf "storageClassName: \"\"" -}}
+              {{- else }}
+                  {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
+              {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- else -}}
+    {{- if .Values.codimd.imageStorePersistentVolume.storageClass -}}
+        {{- if (eq "-" .Values.codimd.imageStorePersistentVolume.storageClass) -}}
+            {{- printf "storageClassName: \"\"" -}}
+        {{- else }}
+            {{- printf "storageClassName: %s" .Values.codimd.imageStorePersistentVolume.storageClass -}}
+        {{- end -}}
+    {{- end -}}
 {{- end -}}
 {{- end -}}

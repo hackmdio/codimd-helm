@@ -1,6 +1,22 @@
 apiVersion: v1
 name: codimd
 description: A CodiMD Helm chart for Kubernetes
+icon: https://hackmd.io/favicon.png
+keywords:
+  - codimd
+  - markdown
+  - collaboration
+maintainers:
+  - name: HackMD Inc.
+    email: support@hackmd.io
+  - name: Raccoon Li
+    email: raccoon@hackmd.io
+
+sources:
+  - https://github.com/hackmdio/codimd
+  - https://github.com/hackmdio/codimd-helm
+
+kubeVersion: ">=1.14.0-0"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
@@ -9,13 +25,3 @@ version: 0.1.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 2.0.0
-
-dependencies:
-  - name: postgresql
-    version: 8.6.10
-    condition: postgresql.enabled, global.postgresql.enabled
-    repository: https://charts.bitnami.com/bitnami
-  - name: mariadb
-    version: 7.3.16
-    condition: mariadb.enabled, global.mariadb.enabled
-    repository: https://charts.bitnami.com/bitnami

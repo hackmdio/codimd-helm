@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: {{ template "codimd.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
   name: {{ template "codimd.fullname" . }}
@@ -20,33 +20,109 @@ spec:
       annotations:
         {{ toYaml .Values.codimd.podAnnotations | nindent 8 }}
     spec:
+      {{ if .Values.codimd.securityContext }}
+      securityContext:
+        {{ toYaml .Values.codimd.securityContext | nindent 8 }}
+      {{ end }}
+      {{ if .Values.codimd.affinity }}
       affinity:
       {{ toYaml .Values.codimd.affinity | nindent 8 }}
+      {{ end }}
+      {{ if .Values.codimd.tolerations }}
       tolerations:
       {{ toYaml .Values.codimd.tolerations | nindent 8 }}
+      {{ end }}
+      {{ if .Values.codimd.nodeSelector }}
       nodeSelector:
       {{ toYaml .Values.codimd.nodeSelector | nindent 8 }}
-
+      {{ end }}
       {{ if .Values.image.pullSecrets }}
       imagePullSecrets:
-      {{ .Values.image.pullSecrets | nindent 8 }}
+        {{ toYaml .Values.image.pullSecrets | nindent 8 }}
       {{end }}
       containers:
         - name: codimd
           image: {{ template "codimd.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           env:
             - name: CMD_USE_CDN
               value: {{ .Values.codimd.security.useCDN | quote }}
             - name: CMD_DB_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "codimd.fullname" . }}-database-secret
+                  name: {{ template "codimd.shortName" . }}-db-secret
                   key: connection
+            - name: CMD_SESSION_LIFE
+              value: {{ .Values.codimd.security.sessionLife | quote }}
+            - name: CMD_HSTS_ENABLE
+              value: {{ .Values.codimd.security.hstsEnabled | quote }}
+            - name: CMD_HSTS_MAX_AGE
+              value: {{ .Values.codimd.security.hstsMaxAge | quote }}
+            - name: CMD_HSTS_INCLUDE_SUBDOMAINS
+              value: {{ .Values.codimd.security.hstsIncludeSubdomain | quote }}
+            - name: CMD_HSTS_PRELOAD
+              value: {{ .Values.codimd.security.hstsPreload | quote }}
+            - name: CMD_CSP_ENABLE
+              value: {{ .Values.codimd.security.cspEnabled | quote }}
+            {{ if .Values.codimd.security.cspReportUri }}
+            - name: CMD_CSP_REPORTURI
+              value: {{ .Values.codimd.security.cspReportUri | quote }}
+            {{ end }}
+            {{ if .Values.codimd.security.allowOrigin }}
+            - name: CMD_ALLOW_ORIGIN
+              value: {{ .Values.codimd.security.allowOrigin | quote }}
+            {{ end }}
+            - name: CMD_ALLOW_GRAVATAR
+              value: {{ .Values.codimd.security.allowGravatar | quote }}
+            - name: CMD_RESPONSE_MAX_LAG
+              value: {{ .Values.codimd.responseMaxLag | quote }}
+            - name: CMD_ALLOW_FREEURL
+              value: {{ .Values.codimd.noteCreation.freeUrlEnabled | quote }}
+            - name: CMD_FORBIDDEN_NOTE_IDS
+              value: {{ .Values.codimd.noteCreation.freeUrlForbiddenNoteIds | quote }}
+            - name: CMD_DEFAULT_PERMISSION
+              value: {{ .Values.codimd.noteCreation.defaultPermission | quote }}
+            - name: CMD_ALLOW_ANONYMOUS_EDITS
+              value: {{ .Values.codimd.notePermission.allowAnonymousEdit | quote}}
+            - name: CMD_ALLOW_ANONYMOUS_VIEWS
+              value: {{ .Values.codimd.notePermission.allowAnonymousView | quote}}
+            - name: CMD_ALLOW_PDF_EXPORT
+              value: {{ .Values.codimd.allowPDFExport | quote }}
+            {{ if .Values.codimd.markdown.plantUMLServer }}
+            - name: CMD_PLANTUML_SERVER
+              value: {{ .Values.codimd.markdown.plantUMLServer }}
+            {{ end }}
+            - name: CMD_DEFAULT_USE_HARD_BREAK
+              value: {{ .Values.codimd.markdown.useHardBreak | quote }}
+            - name: CMD_LINKIFY_HEADER_STYLE
+              value: {{ .Values.codimd.markdown.linkifyHeaderStyle | quote }}
+            - name: CMD_AUTO_VERSION_CHECK
+              value: {{ .Values.codimd.versionCheck | quote }}
+          {{ if .Values.codimd.extraEnvironmentVariables }}
+            {{ range $key, $val := .Values.codimd.extraEnvironmentVariables }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+            {{ end }}
+          {{ end }}
           envFrom:
             - secretRef:
-                name: {{ template "codimd.fullname" . }}-auth-env
+                name: {{ template "codimd.shortName" . }}-auth-env
+            {{ if .Values.codimd.security.sessionSecret }}
+            - secretRef:
+                name: {{ template "codimd.shortName" . }}-session
+            {{ end }}
           ports:
             - name: http
               containerPort: 3000
+          {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
+          volumeMounts:
+            - mountPath: /home/hackmd/app/public/uploads
+              name: image-store
+          {{ end }}
       restartPolicy: Always
+      {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
+      volumes:
+        - name: image-store
+          persistentVolumeClaim:
+            claimName: {{ template "codimd.fullname" . }}
+      {{ end }}
