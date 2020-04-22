@@ -68,10 +68,10 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | service.port                  | Service HTTP port                     | `80`           |
 | service.externalTrafficPolicy | Service externalTrafficPolicy         | `nil`           |
 | service.loadBalancerIP        | Service loadBalancerIP                | `nil`           |
-| ingress.enabled               | Enable ingress controller resource    | `false`        |
-| ingress.annotation            | Ingress annotations                   | `nil`          |
-| ingress.hostname              | Default host for the ingress resource | `nil`          |
-| ingress.tlsSecret             | TLS Secret Name                       | `nil`          |
+| ingress.enabled               | If true, Ingress will be created      | `false`         |
+| ingress.annotations`          | Ingress annotations                   | `nil`           |
+| ingress.hosts                 | Ingress hostnames                     | `nil`           |
+| ingress.tls                   | Ingress TLS configuration (YAML)      | `nil`           |
 
 
 ### CodiMD common parameters
