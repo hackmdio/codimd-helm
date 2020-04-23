@@ -69,7 +69,7 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | service.externalTrafficPolicy | Service externalTrafficPolicy         | `nil`           |
 | service.loadBalancerIP        | Service loadBalancerIP                | `nil`           |
 | ingress.enabled               | If `true` Ingress will be created     | `false`        |
-| ingress.annotations`          | Ingress annotations                   | `nil`          |
+| ingress.annotations           | Ingress annotations                   | `nil`          |
 | ingress.hosts                 | Ingress hostnames                     | `nil`          |
 | ingress.tls                   | Ingress TLS configuration (YAML)      | `nil`          |
 
