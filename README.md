@@ -10,6 +10,9 @@ This repository contains helm chart for CodiMD.
 ## Install
 
 ```bash
-helm repo add codimd ......... (TBD)
-helm install codimd codimd/codimd
+helm repo add codimd https://helm.codimd.dev/
+helm install my-release codimd/codimd
 ```
+
+## Documentation
+[charts/codimd/README.md](./charts/codimd/README.md)
