@@ -3,6 +3,27 @@ entries:
   codimd:
   - apiVersion: v1
     appVersion: 2.0.0
+    created: "2020-04-27T21:32:32.061717+08:00"
+    description: A CodiMD Helm chart for Kubernetes
+    digest: 54004008aa1173c01ebb68f7cd5e32c1fb8d4e616ab57365f6296e8c47944623
+    icon: https://hackmd.io/favicon.png
+    keywords:
+    - codimd
+    - markdown
+    - collaboration
+    kubeVersion: '>=1.14.0-0'
+    maintainers:
+    - email: support@hackmd.io
+      name: HackMD Inc. Dev Team
+    name: codimd
+    sources:
+    - https://github.com/hackmdio/codimd
+    - https://github.com/hackmdio/codimd-helm
+    urls:
+    - codimd-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v1
+    appVersion: 2.0.0
     created: "2020-04-05T05:34:08.918326+08:00"
     description: A CodiMD Helm chart for Kubernetes
     digest: c4a188468e2ded8ac785a50cd0e7a487c211e3e907f20bd0cd89c0bd54ee6fec
@@ -137,4 +158,4 @@ entries:
     urls:
     - codimd-0.1.0.tgz
     version: 0.1.0
-generated: "2020-04-05T05:34:08.892882+08:00"
+generated: "2020-04-27T21:32:32.057814+08:00"
