@@ -9,7 +9,9 @@
 image:
   registry: "nabo.codimd.dev"
   repository: "hackmdio/hackmd"
-  tag: "2.0.0"
+  # When you use export pdf with CJK character, please change the tag with postfix `-cjk`.
+  # for example 2.1.0-cjk
+  tag: "2.1.0"
   pullPolicy: IfNotPresent
   pullSecrets: []
 #    - myRegistryKeySecretName
