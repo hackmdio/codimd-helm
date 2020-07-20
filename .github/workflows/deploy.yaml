@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Run chart-releaser
-        uses: hackmdio/helm-gh-pages@bbac2de
+        uses: hackmdio/helm-gh-pages@bc45b2ad8ea0466f88a031088ad3871f08e761fb
         with:
           token: ${{ secrets.PUSH_TOKEN }}
           helm_version: 2.16.5
