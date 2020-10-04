@@ -1,5 +1,7 @@
 # CodiMD Helm chart
 
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/codimd)](https://artifacthub.io/packages/search?repo=codimd)
+
 This repository contains helm chart for CodiMD.
 
 ## Requirements
