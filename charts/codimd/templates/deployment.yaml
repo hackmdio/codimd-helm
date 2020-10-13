@@ -163,6 +163,16 @@ spec:
             successThreshold: 3
             timeoutSeconds: 2
             periodSeconds: 5
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /status
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 2
       restartPolicy: Always
       {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
       volumes:
