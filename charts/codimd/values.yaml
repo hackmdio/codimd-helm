@@ -114,7 +114,18 @@ codimd:
     runAsUser: 1500
     fsGroup: 1500
     runAsNonRoot: true
-
+  ##
+  ## Resource limits and requests
+  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  ##
+  # resources:
+  #   limits:
+  #     cpu: 500m
+  #     memory: 512Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+  resources: {}
   ##
   ## connection setting
   ##
