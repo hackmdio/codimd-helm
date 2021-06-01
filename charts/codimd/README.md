@@ -85,7 +85,8 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | codimd.securityContext.runAsGroup              | Group ID for the CodiMD container                                                                         | `1500`                       |
 | codimd.securityContext.runAsUser               | User ID for the CodiMD container                                                                          | `1500`                       |
 | codimd.securityContext.fsGroup                 | Group ID for the CodiMD filesystem                                                                        | `1500`                       |
-| codimd.securityContext.runAsNonRoot            | Run non root in CodiMD container                                                                          | `trrue`                      |
+| codimd.securityContext.runAsNonRoot            | Run non root in CodiMD container                                                                          | `true`                       |
+| codimd.resources                               | Resource Requests and Limits for the CodiMD container                                                     | `nil`                        |
 | codimd.connection.domain                       | The domain name your service will be hosted.                                                              | `nil`                        |
 | codimd.connection.urlAddPort                   | Set to assign port for URL. (You don’t need this for ports 80 or 443. This only works when domain is set) | `false`                      |
 | codimd.connection.protocolUseSSL               | Use SSL protocol for resources path (applied only when domain is set).                                    | `false`                      |
