@@ -23,3 +23,10 @@ version: 0.1.11
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 2.3.2
+
+annotations:
+  artifacthub.io/changes: |
+    - "Add 'codimd.extraEnvironmentVariablesFrom' to enable passing configMap/secret-KeyRef(s) as environment variables to CodiMD"
+  artifacthub.io/images: |
+    - name: hackmd
+      image: nabo.codimd.dev/hackmdio/hackmd:2.3.2
