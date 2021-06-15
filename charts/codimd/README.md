@@ -138,6 +138,8 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | codimd.markdown.useHardBreak                   |                                                                                                           | `true`                       |
 | codimd.markdown.linkifyHeaderStyle             |                                                                                                           | `keep-case`                  |
 | codimd.extraEnvironmentVariables               | Extra environment variable for CodiMD container                                                           | `{}`                         |
+| codimd.extraEnvironmentVariablesFrom           | List of extra environment variable(s) in YAML for CodiMD container, useful for `{configMap,secret}KeyRef` | `[]`                         |
+
 ### CodiMD Authentication Method parameters
 
 | Parameter                                               | Description                                                                                               | Default           |

@@ -175,6 +175,18 @@ codimd:
   extraEnvironmentVariables: {}
     # CMD_LOGLEVEL: info
 
+  extraEnvironmentVariablesFrom: []
+    # - name: ENV_FROM
+    #   valueFrom:
+    #     configMapKeyRef:
+    #       name: configmap
+    #       key: configmap_key
+    # - name: SECRET_ENV_FROM
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: secret
+    #       key: secret_key
+
   ## automatically check new version
   versionCheck: true
 
