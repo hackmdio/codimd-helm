@@ -135,6 +135,9 @@ spec:
               value: {{ $val | quote }}
             {{ end }}
           {{ end }}
+          {{- if .Values.codimd.extraEnvironmentVariablesFrom }}
+            {{- toYaml .Values.codimd.extraEnvironmentVariablesFrom | nindent 12 }}
+          {{- end }}
           envFrom:
             - secretRef:
                 name: {{ template "codimd.shortName" . }}-auth-env
