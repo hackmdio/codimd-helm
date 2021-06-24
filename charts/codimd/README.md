@@ -119,7 +119,7 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | codimd.security.useCDN                         | Whether CodiMD would use static assets served on CDN                                                      | `false`                      |
 | codimd.security.sessionSecret                  | The secret string to sign session, please must change this value                                          | `changeit`                   |
 | codimd.security.sessionLife                    | The time to expire for session                                                                            | `1209600000`                 |
-| codimd.security.hstsEnabled                    | Whether HTST is enabled or not                                                                            | `true`                       |
+| codimd.security.hstsEnabled                    | Whether HSTS is enabled or not                                                                            | `true`                       |
 | codimd.security.hstsMaxAge                     |                                                                                                           | `31536000`                   |
 | codimd.security.hstsIncludeSubdomain           |                                                                                                           | `false`                      |
 | codimd.security.hstsPreload                    |                                                                                                           | `true`                       |
