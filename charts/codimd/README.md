@@ -35,7 +35,7 @@ If you use AWS EKS, please setup global.storageClass as `gp2`
 | ----------------- |:-------------------------------- | ----------------- |
 | image.registry    | CodiMD docker image registry     | `nabo.codimd.dev` |
 | image.repository  | CodiMD docker image repository   | `hackmdio/hackmd`  |
-| image.tag         | CodiMD docker image version tag  | `2.2.0`           |
+| image.tag         | CodiMD docker image version tag  | `2.4.1`           |
 | image.pullPolicy  | CodiMD docker image pull policy  | `IfNotPresent`    |
 | image.pullSecrets | CodiMD docker image pull secrets | `[]`              |
 
