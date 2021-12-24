@@ -157,6 +157,7 @@ codimd:
   #      port:
   #      accessKey:
   #      secretKey:
+  #      bucket:
   #    s3:
   #      endpoint:
   #      region:
