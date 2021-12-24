@@ -105,6 +105,7 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | codimd.imageUpload.minio.port                  | The minio port                                                                                            | `nil`                        |
 | codimd.imageUpload.minio.accessKey             | The minio access key                                                                                      | `nil`                        |
 | codimd.imageUpload.minio.secretKey             | The minio secret key                                                                                      | `nil`                        |
+| codimd.imageUpload.minio.bucket                | The minio bucket name                                                                                     | `nil`                        |
 | codimd.imageUpload.s3.endpoint                 | The AWS s3 endpoint                                                                                       | `nil`                        |
 | codimd.imageUpload.s3.region                   | The AWS s3 region                                                                                         | `nil`                        |
 | codimd.imageUpload.s3.accessKeyId              | The AWS s3 access key                                                                                     | `nil`                        |
