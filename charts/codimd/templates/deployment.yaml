@@ -177,6 +177,11 @@ spec:
       {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
       volumes:
         - name: image-store
+        {{- if .Values.codimd.imageStorePersistentVolume.persistentVolumeClaimName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.codimd.imageStorePersistentVolume.persistentVolumeClaimName }}
+        {{- else }}      
           persistentVolumeClaim:
             claimName: {{ template "codimd.fullname" . }}
+        {{- end }}
       {{ end }}
