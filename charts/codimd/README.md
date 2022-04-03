@@ -111,10 +111,12 @@ If you want use ingress, please set `service.type` to be `ClusterIP`
 | codimd.imageUpload.s3.secretKey                | The AWS s3 secret key                                                                                     | `nil`                        |
 | codimd.imageUpload.s3.bucket                   | The AWS s3 bucket name                                                                                    | `nil`                        |
 | codimd.imageStorePersistentVolume.enabled      | Enable image persistence using PVC                                                                        | `true`                       |
+| codimd.imageStorePersistentVolume.persistentVolumeClaimName | Use existing PVC with given name instead of creating own                                     | `nil`                        |
 | codimd.imageStorePersistentVolume.size         | The size of persistence volume                                                                            | `10Gi`                       |
 | codimd.imageStorePersistentVolume.storageClass | The storageClass of persistence volume                                                                    | `-`                          |
 | codimd.imageStorePersistentVolume.accessModes  | The accessModes of persistence volume                                                                     | [`ReadWriteOnce`]            |
 | codimd.imageStorePersistentVolume.volumeMode   | The volumeMode of persistence volume                                                                      | `Filesystem`                 |
+| codimd.imageStorePersistentVolume.keepPvc      | Keep PVC when helm chart is uninstalled                                                                   | `false`                      |
 | codimd.versionCheck                            | Enable automatically version checker                                                                      | `true`                       |
 | codimd.security.useCDN                         | Whether CodiMD would use static assets served on CDN                                                      | `false`                      |
 | codimd.security.sessionSecret                  | The secret string to sign session, please must change this value                                          | `changeit`                   |
