@@ -11,7 +11,8 @@ image:
   repository: "hackmdio/hackmd"
   # When you use export pdf with CJK character, please change the tag with postfix `-cjk`.
   # for example 2.2.0-cjk
-  tag: "2.3.2"
+  # If not set this defaults to the appVersion in Chart.yaml
+  tag: ""
   pullPolicy: IfNotPresent
   pullSecrets: []
 #    - myRegistryKeySecretName
