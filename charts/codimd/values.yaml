@@ -87,6 +87,13 @@ ingress:
 ##
 codimd:
   ##
+  ## Service Account
+  ##
+  serviceAccount:
+    enabled: true
+    annotations: {}
+
+  ##
   ## Affinity for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ##
