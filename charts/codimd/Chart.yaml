@@ -14,12 +14,12 @@ sources:
   - https://github.com/hackmdio/codimd
   - https://github.com/hackmdio/codimd-helm
 
-kubeVersion: ">=1.14.0-0"
+kubeVersion: ">=1.14.0 <1.22.0"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.1.10
+version: 0.1.11
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 2.3.2
+appVersion: 2.5.1
