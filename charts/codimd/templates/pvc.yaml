@@ -1,3 +1,4 @@
+{{- if not .Values.codimd.imageStorePersistentVolume.persistentVolumeClaimName }}
 {{ if .Values.codimd.imageStorePersistentVolume.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -6,6 +7,10 @@ metadata:
   labels:
     app.kubernetes.io/component: pvc
   {{- include "codimd.labels" . | nindent 4}}
+  {{- if .Values.codimd.imageStorePersistentVolume.keepPvc }}
+  annotations:
+    "helm.sh/resource-policy": keep
+  {{- end }}  
 spec:
   accessModes:
     {{ range .Values.codimd.imageStorePersistentVolume.accessModes }}
@@ -17,3 +22,4 @@ spec:
       storage: {{ default "10G" .Values.codimd.imageStorePersistentVolume.size | quote }}
   {{- include "codimd.storageClass" . | nindent 2 }}
   {{ end }}
+{{- end }}

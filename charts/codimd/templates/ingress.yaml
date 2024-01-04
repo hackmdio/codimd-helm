@@ -1,10 +1,15 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "codimd.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- $apiVersion := .Capabilities.APIVersions -}}
+{{- if $apiVersion.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+{{- if $apiVersion.Has "networking.k8s.io/v1beta1" }}
 apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
+{{- else }}
 apiVersion: extensions/v1beta1
+{{- end }}
 {{- end }}
 kind: Ingress
 metadata:
@@ -33,9 +38,18 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ . }}
+            {{- if $apiVersion.Has "networking.k8s.io/v1" }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+            {{- else }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+            {{- end }}
         {{- end }}
   {{- end }}
 {{- end }}
